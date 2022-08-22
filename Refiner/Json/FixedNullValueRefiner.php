@@ -74,7 +74,7 @@ class FixedNullValueRefiner implements RefinerInterface
         $data = $entity->getDataRefined();
         $data = $this->serializer->unserialize($data);
 
-        $data[$identifiers] = null;
+        $this->dotConvention->setValue($data, $identifiers, null);
 
         $data = $this->serializer->serialize($data);
         $entity->setDataRefined($data);
