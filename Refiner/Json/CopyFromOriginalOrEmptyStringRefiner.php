@@ -15,7 +15,7 @@ use GhostUnicorns\CrtEntity\Model\EntityModel;
 use GhostUnicorns\CrtUtils\Model\DotConvention;
 use Magento\Framework\Serialize\Serializer\Json;
 
-class CopyFromOriginalOrNullRefiner implements RefinerInterface
+class CopyFromOriginalOrEmptyStringRefiner implements RefinerInterface
 {
     /**
      * @var Json
@@ -102,9 +102,14 @@ class CopyFromOriginalOrNullRefiner implements RefinerInterface
                     $value = (int)$value;
                     break;
             }
+
+            if (!$value) {
+                $value = '';
+            }
+
             $this->dotConvention->setValue($dataRefined, $destination, $value);
         } catch(\Exception $exception) {
-            $dataRefined[$destination] = null;
+            $dataRefined[$destination] = '';
         }
 
         $data = $this->serializer->serialize($dataRefined);
