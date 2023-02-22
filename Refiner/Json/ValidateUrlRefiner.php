@@ -1,6 +1,6 @@
 <?php
 /*
-  * Copyright © Ghost Unicorns snc. All rights reserved.
+ * Copyright © Ghost Unicorns snc. All rights reserved.
  * See LICENSE for license details.
  */
 
@@ -68,8 +68,10 @@ class ValidateUrlRefiner implements RefinerInterface
 
         if ($value) {
             if (filter_var($value, FILTER_VALIDATE_URL) === false) {
+                $errorMessage = __('Invalid url:%1', $value);
+                $entity->addExtraArray(['skip_reason' => $errorMessage]);
                 $entity->skip();
-                throw new CrtImportantException(__('Invalid url:%1', $value));
+                throw new CrtImportantException($errorMessage);
             }
         }
     }
